@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Todos\SaveTodoRequest;
 use App\Todo;
 use App\Jobs\Todos\CreateTodo;
+use App\Repositories\Contracts\TodoRepositoryInterface;
 
 class TodoController extends Controller
 {
@@ -15,9 +16,11 @@ class TodoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(TodoRepositoryInterface $todoRepo)
     {
-        //
+        return view('todos.index', [
+            'todos' => $todoRepo->all()
+        ]);
     }
 
     /**
