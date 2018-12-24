@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Todos\SaveTodoRequest;
 use App\Todo;
+use App\Jobs\Todos\CreateTodo;
 
 class TodoController extends Controller
 {
@@ -37,7 +38,16 @@ class TodoController extends Controller
      */
     public function store(SaveTodoRequest $request)
     {
+        // Response will always be going back to the previous page
+        $response = redirect()->back();
 
+        // Create the todo and redirect to previous page with a success message
+        if (dispatch_now(new CreateTodo($request->all(), $request->user()))) {
+            return $response->with('successMessage', __('Todo has been added.'));
+        }
+
+        // Todo creation failed, redirect back with an error message
+        return $response->with('errorMessage', __('There was an error in adding the Todo.'));
     }
 
     /**
