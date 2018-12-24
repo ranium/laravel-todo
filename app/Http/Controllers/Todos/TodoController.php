@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Todos;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Todos\SaveTodoRequest;
+use App\Todo;
 
 class TodoController extends Controller
 {
@@ -24,18 +26,18 @@ class TodoController extends Controller
      */
     public function create()
     {
-        //
+        return view('todos.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\Todos\SaveTodoRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(SaveTodoRequest $request)
     {
-        //
+
     }
 
     /**
