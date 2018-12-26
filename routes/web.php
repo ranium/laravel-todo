@@ -17,6 +17,6 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::resource('todo', 'Todos\TodoController');
-
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::resource('todo', 'Todos\TodoController')->middleware('auth');

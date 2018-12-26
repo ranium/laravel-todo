@@ -30,6 +30,8 @@ class TodoController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Todo::class);
+
         return view('todos.create');
     }
 
@@ -41,6 +43,8 @@ class TodoController extends Controller
      */
     public function store(SaveTodoRequest $request)
     {
+        $this->authorize('create', Todo::class);
+
         // Response will always be going back to the previous page
         $response = redirect()->back();
 
