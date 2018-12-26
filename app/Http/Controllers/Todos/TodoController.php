@@ -19,7 +19,7 @@ class TodoController extends Controller
     public function index(TodoRepositoryInterface $todoRepo)
     {
         return view('todos.index', [
-            'todos' => $todoRepo->all()
+            'todos' => $todoRepo->allPending()
         ]);
     }
 
