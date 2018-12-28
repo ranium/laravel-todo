@@ -23,5 +23,8 @@ class Todo extends Model
      *
      * @var array
      */
-    public $dates = ['due_at'];
+    public $dates = [
+        'due_at',
+        'completed_at',
+    ];
 }

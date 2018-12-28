@@ -22,8 +22,17 @@
                                 <td>{{ $todo->title }}</td>
                                 <td>{{ $todo->due_at ?  $todo->due_at->format('j, M Y') : ''}}</td>
                                 <td>
-                                    <a href="#">{{ __('Complete') }}</a> |
+                                    <a href="{{ route('todo.complete', ['todo' => $todo->id]) }}"
+                                       onclick="event.preventDefault();
+                                       document.getElementById('todo-complete-form-{{ $todo->id }}').submit();">
+                                        {{ __('Complete') }}
+                                    </a> |
                                     <a href="#">{{ __('Delete') }}</a>
+                                    <form id="todo-complete-form-{{ $todo->id }}"
+                                        action="{{ route('todo.complete', ['todo' => $todo->id]) }}" method="POST" style="display: none;">
+                                            {{ method_field('PUT') }}
+                                            @csrf
+                                        </form>
                                 </td>
                             </tr>
                         @endforeach

@@ -3,6 +3,7 @@
 namespace App\Repositories\Eloquent;
 
 use App\Repositories\Contracts\TodoRepositoryInterface;
+use App\User;
 
 class TodoRepository extends Repository implements TodoRepositoryInterface
 {
@@ -11,8 +12,11 @@ class TodoRepository extends Repository implements TodoRepositoryInterface
      *
      * @return Collection
      */
-    public function allPending()
+    public function allPending(User $user)
     {
-        return $this->findAllWhere(['completed_at' => null]);
+        return $this->findAllWhere([
+            'user_id' => $user->id,
+            'completed_at' => null
+        ]);
     }
 }

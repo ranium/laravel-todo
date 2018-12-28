@@ -2,6 +2,8 @@
 
 namespace App\Repositories\Contracts;
 
+use App\User;
+
 interface TodoRepositoryInterface
 {
     /**
@@ -9,5 +11,5 @@ interface TodoRepositoryInterface
      *
      * @return Collection
      */
-    public function allPending();
+    public function allPending(User $user);
 }

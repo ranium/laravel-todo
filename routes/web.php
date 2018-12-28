@@ -19,4 +19,9 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::resource('todo', 'Todos\TodoController')->middleware('auth');
+Route::group(['middleware' => ['auth']], function () {
+    Route::resource('todo', 'Todos\TodoController');
+    Route::put('todo/{todo}/complete', 'Todos\MarkTodoCompletedController@update')
+        ->name('todo.complete');
+});
+
