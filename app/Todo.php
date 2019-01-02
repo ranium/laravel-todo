@@ -27,4 +27,9 @@ class Todo extends Model
         'due_at',
         'completed_at',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(\App\User::class);
+    }
 }

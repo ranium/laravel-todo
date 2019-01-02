@@ -8,6 +8,7 @@ use App\Http\Requests\Todos\SaveTodoRequest;
 use App\Todo;
 use App\Jobs\Todos\CreateTodo;
 use App\Repositories\Contracts\TodoRepositoryInterface;
+use App\Transformers\Todos\SimpleTodoTransformer;
 
 class TodoController extends Controller
 {
@@ -16,10 +17,11 @@ class TodoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(TodoRepositoryInterface $todoRepo)
+    public function index(TodoRepositoryInterface $todoRepo, SimpleTodoTransformer $transformer)
     {
+        //dd($transformer->transformCollection($todoRepo->allPending(auth()->user())));
         return view('todos.index', [
-            'todos' => $todoRepo->allPending(auth()->user())
+            'todos' => $transformer->transformCollection($todoRepo->allPending(auth()->user()))
         ]);
     }
 
