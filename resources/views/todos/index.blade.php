@@ -4,7 +4,14 @@
 <div class="row justify-content-center">
     <div class="col-md-8">
         <div class="card">
-            <div class="card-header">Todos <a class="float-right" href="{{ route('todo.index', ['all' => 1]) }}">Show All</a></div>
+            <div class="card-header">
+                Todos
+                @if(! request()->all)
+                    <a class="float-right" href="{{ route('todo.index', ['all' => 1]) }}">Show All</a>
+                @else
+                    <a class="float-right" href="{{ route('todo.index') }}">Show Pending</a>
+                @endif
+            </div>
             <div class="card-body">
                 <table class="table">
                     <thead>
