@@ -38,10 +38,15 @@ class RepositoryServiceProvider extends ServiceProvider
             // Get the model name based on the repository interface name
             // and then inject the model into the repository object
             preg_match('/([a-zA-Z]+)RepositoryInterface/', $interface, $matches);
+
             $model = sprintf('\App\%s', $matches[1]);
-            $this->app->bind($interface, function ($app) use ($model, $class) {
-                return new $class(new $model);
-            });
+
+            $this->app->bind(
+                $interface,
+                function ($app) use ($model, $class) {
+                    return new $class(new $model);
+                }
+            );
         }
     }
 }

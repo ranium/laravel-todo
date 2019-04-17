@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers\Todos;
 
+use App\Todo;
 use Illuminate\Http\Request;
+use App\Jobs\Todos\CreateTodo;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Todos\SaveTodoRequest;
-use App\Todo;
-use App\Jobs\Todos\CreateTodo;
 use App\Repositories\Contracts\TodoRepositoryInterface;
-use App\Transformers\Todos\SimpleTodoTransformer;
 
 class TodoController extends Controller
 {
@@ -17,11 +16,10 @@ class TodoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(TodoRepositoryInterface $todoRepo, SimpleTodoTransformer $transformer)
+    public function index(TodoRepositoryInterface $todoRepo)
     {
-        //dd($transformer->transformCollection($todoRepo->allPending(auth()->user())));
         return view('todos.index', [
-            'todos' => $transformer->transformCollection($todoRepo->allPending(auth()->user()))
+            'todos' => $todoRepo->allPending(auth()->user())
         ]);
     }
 
@@ -38,7 +36,7 @@ class TodoController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created Todo.
      *
      * @param  \App\Http\Requests\Todos\SaveTodoRequest  $request
      * @return \Illuminate\Http\Response

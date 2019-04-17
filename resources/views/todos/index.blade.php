@@ -20,7 +20,7 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $todo->title }}</td>
-                                <td>{{ $todo->due_at ?  $todo->due_at->format('j, M Y') : ''}}</td>
+                                <td>{{ $todo->due_at ?  $todo->due_at->format('j, M Y') : '-'}}</td>
                                 <td>
                                     <a href="{{ route('todo.complete', ['todo' => $todo->id]) }}"
                                        onclick="event.preventDefault();
