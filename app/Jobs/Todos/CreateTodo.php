@@ -2,6 +2,7 @@
 
 namespace App\Jobs\Todos;
 
+use App\User;
 use App\Jobs\Job;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
@@ -9,8 +10,6 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use App\Repositories\Contracts\TodoRepositoryInterface;
-use Carbon\Carbon;
-use App\User;
 
 class CreateTodo extends Job
 {
@@ -49,11 +48,13 @@ class CreateTodo extends Job
         // Make sure all conditions are met (policies satisfy) before accepting the join request
         $this->verifyCompliance();
 
-        return $todoRepo->store([
-            'title' => $this->data['title'],
-            'user_id' => $this->user->id,
-            'description' => $this->data['description'],
-            'due_at' => $this->data['due_at']? Carbon::parse($this->data['due_at']) : null,
-        ]);
+        return $todoRepo->store(
+            [
+                'title' => $this->data['title'],
+                'user_id' => $this->user->id,
+                'description' => $this->data['description'],
+                'due_at' => $this->data['due_at'],
+            ]
+        );
     }
 }

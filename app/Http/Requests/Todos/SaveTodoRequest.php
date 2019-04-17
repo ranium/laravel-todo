@@ -13,6 +13,11 @@ class SaveTodoRequest extends FormRequest
      */
     public function authorize()
     {
+        // For update request, make sure user can update the given todo
+        if ($this->route('todo')) {
+            return $this->user()->can('update', $this->route('todo'));
+        }
+
         return true;
     }
 

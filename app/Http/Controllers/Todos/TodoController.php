@@ -38,13 +38,17 @@ class TodoController extends Controller
     {
         $this->authorize('create', Todo::class);
 
-        return view('todos.create');
+        // Instantiate an empty todo object
+        $todo = new Todo;
+
+        return view('todos.create', compact('todo'));
     }
 
     /**
      * Store a newly created Todo.
      *
-     * @param  \App\Http\Requests\Todos\SaveTodoRequest  $request
+     * @param \App\Http\Requests\Todos\SaveTodoRequest $request Form request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(SaveTodoRequest $request)
@@ -78,30 +82,49 @@ class TodoController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param \App\Todo $todo Todo to be edited
+     *
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Todo $todo)
     {
-        //
+        $this->authorize('update', $todo);
+
+        return view('todos.edit', compact('todo'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \App\Repositories\Contracts\TodoRepositoryInterface $todoRepo Todo repository instance
+     * @param \App\Http\Requests\Todos\SaveTodoRequest            $request  Form request
+     * @param \App\Todo                                           $todo     Todo to be updated
+     *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(TodoRepositoryInterface $todoRepo, SaveTodoRequest $request, Todo $todo)
     {
-        //
+        $updated = $todoRepo->update(
+            $todo->id,
+            [
+                'title' => $request->title,
+                'description' => $request->description,
+                'due_at' => $request->due_at,
+            ]
+        );
+
+        if ($updated) {
+            return redirect()->back()->with('successMessage', __('Todo has been updated.'));
+        }
+
+        return redirect()->back()->with('errorMessage', __('Unable to update the todo.'));
     }
 
     /**
      * Remove the specified todo from storage.
      *
-     * @param \App\Todo $todo Todo to be deleted
+     * @param \App\Repositories\Contracts\TodoRepositoryInterface $todoRepo Todo repository instance
+     * @param \App\Todo                                           $todo     Todo to be deleted
      *
      * @return \Illuminate\Http\Response
      */
