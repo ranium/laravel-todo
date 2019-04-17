@@ -24,7 +24,7 @@ abstract class JobPolicy
      */
     public function complies(Job $job)
     {
-        collect(static::$conditions)->each(function ($exceptionClass, $conditionClass) use ($job) {
+        collect(static::$conditions)->each(function ($conditionClass) use ($job) {
         //  Instantiate the condition
             $condition = new $conditionClass($job);
 
@@ -38,8 +38,7 @@ abstract class JobPolicy
             $conditionIndex = class_basename($condition);
             $errorText = trans(sprintf('policies/%s.%s', $policyIndex, $conditionIndex));
 
-            //  Throw the appropriate Exception
-            throw new $exceptionClass($errorText);
+            abort(422, $errorText);
         });
 
         //  If we're this far, all conditions hold, and therefore the policy is in compliance

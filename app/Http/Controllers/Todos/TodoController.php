@@ -16,10 +16,16 @@ class TodoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(TodoRepositoryInterface $todoRepo)
+    public function index(TodoRepositoryInterface $todoRepo, Request $request)
     {
+        $method = 'allPendingForUser';
+
+        if ($request->all) {
+            $method = 'allForUser';
+        }
+
         return view('todos.index', [
-            'todos' => $todoRepo->allPending(auth()->user())
+            'todos' => $todoRepo->$method(auth()->user())
         ]);
     }
 
@@ -43,6 +49,7 @@ class TodoController extends Controller
      */
     public function store(SaveTodoRequest $request)
     {
+        // Check if the current user can create the todo
         $this->authorize('create', Todo::class);
 
         // Response will always be going back to the previous page
@@ -92,13 +99,21 @@ class TodoController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified todo from storage.
      *
-     * @param  int  $id
+     * @param \App\Todo $todo Todo to be deleted
+     *
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(TodoRepositoryInterface $todoRepo, Todo $todo)
     {
-        //
+        // Check if the current user can delete the todo
+        $this->authorize('delete', $todo);
+
+        if ($todoRepo->delete($todo->id)) {
+            return redirect()->back()->with('successMessage', __('Todo has been deleted.'));
+        }
+
+        return redirect()->back()->with('errorMessage', __('Unable to delete the todo.'));
     }
 }

@@ -2,11 +2,11 @@
 
 namespace App\JobPolicies\Todos;
 
-use App\Conditions\Todos\TodoIsPending;
+use App\Conditions\Todos\TodoIsCompleted;
 use App\Exceptions\JobPolicy\InvalidStateException;
 use App\JobPolicies\JobPolicy;
 
-class MarkTodoCompletedPolicy extends JobPolicy
+class MarkTodoPendingPolicy extends JobPolicy
 {
     /**
      * An array of Conditions
@@ -14,6 +14,6 @@ class MarkTodoCompletedPolicy extends JobPolicy
      * @var array<Condition>
      */
     protected static $conditions = [
-        TodoIsPending::class,
+        TodoIsCompleted::class,
     ];
 }

@@ -21,7 +21,9 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['middleware' => ['auth']], function () {
     Route::resource('todo', 'Todos\TodoController');
-    Route::put('todo/{todo}/complete', 'Todos\MarkTodoCompletedController@update')
+    Route::post('todo/{todo}/complete', 'Todos\MarkTodoCompletedController@store')
         ->name('todo.complete');
+    Route::delete('todo/{todo}/complete', 'Todos\MarkTodoCompletedController@destroy')
+        ->name('todo.pending');
 });
 

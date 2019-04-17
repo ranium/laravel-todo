@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Todos;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Todo;
+use Illuminate\Http\Request;
+use App\Jobs\Todos\MarkTodoPending;
+use App\Http\Controllers\Controller;
 use App\Jobs\Todos\MarkTodoCompleted;
+
 
 class MarkTodoCompletedController extends Controller
 {
@@ -17,7 +19,7 @@ class MarkTodoCompletedController extends Controller
      * @param Todo $todo
      * @return void
      */
-    public function update(Request $request, Todo $todo)
+    public function store(Request $request, Todo $todo)
     {
         // Check if the user can update the todo
         $this->authorize('update', $todo);
@@ -27,5 +29,24 @@ class MarkTodoCompletedController extends Controller
 
         // Return back to previous page
         return redirect()->back()->with('successMessage', __('Todo completed.'));
+    }
+
+    /**
+     * Method to mark a todo as open
+     *
+     * @param Request $request
+     * @param Todo $todo
+     * @return void
+     */
+    public function destroy(Request $request, Todo $todo)
+    {
+        // Check if the user can update the todo
+        $this->authorize('update', $todo);
+
+        // Mark the todo pending
+        dispatch_now(new MarkTodoPending($todo, $request->user()));
+
+        // Return back to previous page
+        return redirect()->back()->with('successMessage', __('Todo marked as pending.'));
     }
 }

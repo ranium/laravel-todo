@@ -54,7 +54,7 @@ class TodoPolicy
      */
     public function delete(User $user, Todo $todo)
     {
-        //
+        return $this->update($user, $todo);
     }
 
     /**
