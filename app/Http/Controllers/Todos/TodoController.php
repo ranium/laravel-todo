@@ -69,14 +69,18 @@ class TodoController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified todo.
      *
-     * @param  int  $id
+     * @param \App\Repositories\Contracts\TodoRepositoryInterface $todoRepo Todo repository instance
+     * @param \App\Todo                                           $todo     Todo to be updated
+     *
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(TodoRepositoryInterface $todoRepo, Todo $todo)
     {
-        //
+        $this->authorize('view', $todo);
+
+        return view('todos.show', compact('todo'));
     }
 
     /**
