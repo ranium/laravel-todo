@@ -2,10 +2,19 @@
 
 namespace App;
 
+use App\Traits\Presentable;
+use App\Presenters\TodoPresenter;
 use Illuminate\Database\Eloquent\Model;
 
 class Todo extends Model
 {
+    use Presentable;
+
+    /**
+     * @var string
+     */
+    protected $presenter = TodoPresenter::class;
+
     /**
      * Attributes that can be mass assigned (filled)
      *
