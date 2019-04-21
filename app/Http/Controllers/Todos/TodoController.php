@@ -9,6 +9,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Todos\SaveTodoRequest;
 use App\Repositories\Contracts\TodoRepositoryInterface;
 
+/**
+ * Todo Controller
+ */
 class TodoController extends Controller
 {
     /**
@@ -24,9 +27,12 @@ class TodoController extends Controller
             $method = 'allForUser';
         }
 
-        return view('todos.index', [
-            'todos' => $todoRepo->$method(auth()->user())
-        ]);
+        return view(
+            'todos.index',
+            [
+                'todos' => $todoRepo->$method(auth()->user())
+            ]
+        );
     }
 
     /**

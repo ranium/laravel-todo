@@ -11,19 +11,36 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get(
+    '/',
+    function () {
+        return view('welcome');
+    }
+);
 
+// Routes for auth pages
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::group(['middleware' => ['auth']], function () {
-    Route::resource('todo', 'Todos\TodoController');
-    Route::post('todo/{todo}/complete', 'Todos\MarkTodoCompletedController@store')
-        ->name('todo.complete');
-    Route::delete('todo/{todo}/complete', 'Todos\MarkTodoCompletedController@destroy')
-        ->name('todo.pending');
-});
+// Authenticated routes
+Route::group(
+    ['middleware' => ['auth']],
+    function () {
+        // Add/edit/delete/show routes for Todos
+        Route::resource('todo', 'Todos\TodoController');
+
+        // Route to mark a todo complete
+        Route::post(
+            'todo/{todo}/complete',
+            'Todos\MarkTodoCompletedController@store'
+        )->name('todo.complete');
+
+        // Route to mark a todo pending
+        Route::delete(
+            'todo/{todo}/complete',
+            'Todos\MarkTodoCompletedController@destroy'
+        )->name('todo.pending');
+    }
+);
 

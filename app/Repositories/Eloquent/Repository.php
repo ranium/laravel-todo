@@ -5,12 +5,14 @@ namespace App\Repositories\Eloquent;
 abstract class Repository
 {
     /**
-     * @var
+     * @var Model instance
      */
     protected $model;
 
     /**
-     * @param $model
+     * Constructor
+     *
+     * @param \Illuminate\Database\Eloquent\Model $model Model instance
      */
     public function __construct($model)
     {
@@ -30,7 +32,7 @@ abstract class Repository
     /**
      * Create a new record
      *
-     * @param $attributes
+     * @param array $attributes Attributes for the record to be created
      *
      * @return mixed
      */
@@ -42,8 +44,8 @@ abstract class Repository
     /**
      * Update an existing model
      *
-     * @param $id
-     * @param $attributes
+     * @param integer $id         Id of the model to be updated
+     * @param array   $attributes Attributes to be updated
      *
      * @return mixed
      */
@@ -57,7 +59,7 @@ abstract class Repository
     /**
      * Delete a model
      *
-     * @param $id
+     * @param integer $id Id of the model to be deleted
      *
      * @return mixed
      */
@@ -70,7 +72,7 @@ abstract class Repository
     /**
      * Get a model with a specific idea
      *
-     * @param $id
+     * @param integer $id Id of the model to be fetched
      *
      * @return mixed
      */
@@ -83,7 +85,7 @@ abstract class Repository
      * Search for object with supplied properties, and return
      * either the first object or null
      *
-     * @param array $cols
+     * @param array $cols Array of fields to be used as where clause
      *
      * @return mixed
      */
@@ -98,7 +100,7 @@ abstract class Repository
      * Search for objects with supplied properties, and return
      * the collection
      *
-     * @param array $cols
+     * @param array $cols Array of fields to be used as where clause
      *
      * @return mixed
      */
@@ -112,7 +114,7 @@ abstract class Repository
     /**
      * Return models with an ID in the supplied array
      *
-     * @param array $ids
+     * @param array $ids Array of Ids to be used as where clause
      *
      * @return mixed
      */
@@ -127,9 +129,9 @@ abstract class Repository
      * Determine if object with the given ID belongs to a foreign
      * object with another ID
      *
-     * @param int $id
-     * @param string $foreignIdColumn
-     * @param int $foreignId
+     * @param int    $id              Id of the model
+     * @param string $foreignIdColumn Foreign Id field name
+     * @param int    $foreignId       Foreign id
      *
      * @return bool
      */
@@ -144,7 +146,7 @@ abstract class Repository
     /**
      * Check if a model with this ID exists
      *
-     * @param $id
+     * @param integer $id Id of the model to check if it exists
      *
      * @return bool
      */
@@ -158,8 +160,8 @@ abstract class Repository
     /**
      * Determine if a model with a specific column value exists
      *
-     * @param mixed $col
-     * @param mixed $value
+     * @param mixed $col   Column name
+     * @param mixed $value Value
      *
      * @return bool
      */

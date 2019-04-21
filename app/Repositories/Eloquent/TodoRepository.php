@@ -5,6 +5,9 @@ namespace App\Repositories\Eloquent;
 use App\User;
 use App\Repositories\Contracts\TodoRepositoryInterface;
 
+/**
+ * Todo Repository
+ */
 class TodoRepository extends Repository implements TodoRepositoryInterface
 {
     /**
